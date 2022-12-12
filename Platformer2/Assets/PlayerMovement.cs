@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 3.5f;
+    public float walkSpeed = 2.5f;
     public float jumpSpeed = 0.0f;
     public bool canJump = true;
     private float direction = 0;
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
-                jumpSpeed += 0.01f;
+                jumpSpeed += 0.025f;
             }
             if (Input.GetKeyDown("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
