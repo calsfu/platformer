@@ -16,11 +16,13 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask iceGroundLayer;
     public LayerMask sandGroundLayer;
+    public LayerMask snowLayer;
     public bool isTouchingGround;
     public bool isTouchingIceGround;
     public bool isTouchingSandGround;
+    public bool isTouchingSnow;
 
-    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial;
+    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial, SnowMaterial;;
 
     private Rigidbody2D player;
 
@@ -50,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isTouchingIceGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, iceGroundLayer);
         isTouchingSandGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, sandGroundLayer);
-        if(isTouchingIceGround||isTouchingSandGround)
+        isTouchingSnow = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, snowLayer);
+        if(isTouchingIceGround||isTouchingSandGround||isTouchingSnow)
         {
             isTouchingGround = true;
         }
@@ -66,9 +69,9 @@ public class PlayerMovement : MonoBehaviour
         //Makes the player face the correct direction and move left or right when jumping
         if (direction > 0f)
         {
-            if (!isTouchingGround && !isTouchingIceGround)
+            if (!isTouchingGround && !isTouchingIceGround && !isTouchingSnow)
             {
-                if (jumpSpeed == 0.0f && (isTouchingGround || isTouchingIceGround))
+                if (jumpSpeed == 0.0f && (isTouchingGround || isTouchingIceGround || isTouchingSnow))
                     player.velocity = new Vector2(direction * walkSpeed, player.velocity.y);
 
             }
@@ -80,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!isTouchingGround && !isTouchingIceGround)
             {
-                if (jumpSpeed == 0.0f && (isTouchingGround || isTouchingIceGround))
+                if (jumpSpeed == 0.0f && (isTouchingGround || isTouchingIceGround || isTouchingSnow))
                     player.velocity = new Vector2(direction * walkSpeed, player.velocity.y);
             }
             else
@@ -103,15 +106,25 @@ public class PlayerMovement : MonoBehaviour
             player.sharedMaterial = iceMaterial;
         }
 
+        if (isTouchingSnow)
+        {
+            player.sharedMaterial = SnowMaterial;
+        }
+
         //Jump
         if (!isMoving || isMoving)
         {
             if (Input.GetKey("space") && (isTouchingGround) && canJump)
             {
+                if(jumpSpeed < 5f && isTouchingSnow) {
+                    jumpSpeed += 0.25f;
+                }
+                else
                 if(jumpSpeed < 10f) {
                     jumpSpeed += 0.25f;
                 }
             }
+            
             // if (Input.GetKeyDown("space") && (isTouchingGround) && canJump)
             // {
             //     player.velocity = new Vector2(previous_x_speed, player.velocity.y);
@@ -135,6 +148,15 @@ public class PlayerMovement : MonoBehaviour
                     player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
+                if (isTouchingSnow)
+                {
+                    if (jumpSpeed < .5f)
+                    {
+                        jumpSpeed = .5f;
+                    }
+                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
+                    jumpSpeed = 0f;
+                }
                 canJump = true;
             }
         }
@@ -146,5 +168,5 @@ public class PlayerMovement : MonoBehaviour
         canJump = false;
         jumpSpeed = 0;
     }
-}
 
+}
