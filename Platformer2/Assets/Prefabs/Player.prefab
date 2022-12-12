@@ -194,4 +194,5 @@ MonoBehaviour:
   bounceMaterial: {fileID: 6200000, guid: 599fce293a0093e4c95afcfffda2880e, type: 2}
   normalMaterial: {fileID: 6200000, guid: 599fce293a0093e4c95afcfffda2880e, type: 2}
   iceMaterial: {fileID: 6200000, guid: 72d46668f7103324498dc1370dbe1522, type: 2}
+  sandMaterial: {fileID: 6200000, guid: e358fde6f2875b24196075d57de6fab1, type: 2}
   isMoving: 0

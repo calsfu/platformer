@@ -6,18 +6,21 @@ public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed = 3f;
     public float jumpSpeed = 0.0f;
+    public float previous_x_speed = 0.0f;
     public bool canJump = true;
     private float direction = 0;
 
     public Transform groundCheck;
-    public float groundCheckRadius;
+    public float groundCheckRadius = 0.1f;
     
     public LayerMask groundLayer;
     public LayerMask iceGroundLayer;
+    public LayerMask sandGroundLayer;
     public bool isTouchingGround;
     public bool isTouchingIceGround;
+    public bool isTouchingSandGround;
 
-    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial;
+    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial;
 
     private Rigidbody2D player;
 
@@ -46,6 +49,11 @@ public class PlayerMovement : MonoBehaviour
         player.velocity = new Vector2(player.velocity.x, player.velocity.y);
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isTouchingIceGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, iceGroundLayer);
+        isTouchingSandGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, sandGroundLayer);
+        if(isTouchingIceGround||isTouchingSandGround)
+        {
+            isTouchingGround = true;
+        }
         if (player.velocity.magnitude == 0)
         {
             isMoving = false;
@@ -96,23 +104,25 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Jump
-        if (!isMoving)
+        if (!isMoving || isMoving)
         {
-            if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
+            if (Input.GetKey("space") && (isTouchingGround) && canJump)
             {
-                jumpSpeed += 0.25f;
+                if(jumpSpeed < 10f) {
+                    jumpSpeed += 0.25f;
+                }
             }
-            if (Input.GetKeyDown("space") && (isTouchingGround || isTouchingIceGround) && canJump)
-            {
-                player.velocity = new Vector2(0.0f, player.velocity.y);
-            }
-            if (jumpSpeed >= 10f && (isTouchingGround || isTouchingIceGround))
-            {
-                float tempx = direction * walkSpeed;
-                float tempy = jumpSpeed;
-                player.velocity = new Vector2(tempx, tempy);
-                Invoke("ResetJump", 0.2f);
-            }
+            // if (Input.GetKeyDown("space") && (isTouchingGround) && canJump)
+            // {
+            //     player.velocity = new Vector2(previous_x_speed, player.velocity.y);
+            // }
+            // if (jumpSpeed >= 10f && (isTouchingGround || isTouchingIceGround))
+            // {
+            //     float tempx = direction * walkSpeed;
+            //     float tempy = jumpSpeed;
+            //     player.velocity = new Vector2(tempx, tempy);
+            //     Invoke("ResetJump", 0.2f);
+            // }
             if (Input.GetKeyUp("space"))
             {
                 if (isTouchingGround || isTouchingIceGround)
@@ -121,12 +131,14 @@ public class PlayerMovement : MonoBehaviour
                     {
                         jumpSpeed = 1f;
                     }
-                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
+                    previous_x_speed = player.velocity.x + direction * walkSpeed;
+                    player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
                 canJump = true;
             }
         }
+        
 
 }
     void ResetJump()
