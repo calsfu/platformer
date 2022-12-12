@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform groundCheck;
     public float groundCheckRadius = 0.1f;
-    
+
     public LayerMask groundLayer;
     public LayerMask iceGroundLayer;
     public LayerMask sandGroundLayer;
@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     {
         player = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        PlayerPrefs.DeleteAll();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -130,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
                     jumpSpeed += 0.2f;
                 }
             }
-            
+
             // if (Input.GetKeyDown("space") && (isTouchingGround) && canJump)
             // {
             //     player.velocity = new Vector2(previous_x_speed, player.velocity.y);
@@ -176,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
         anim.SetBool("grounded", grounded);
-        
+
 
 }
     void ResetJump()
