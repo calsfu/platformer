@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial;
 
+    private Animator anim;
+    private bool grounded;
     private Rigidbody2D player;
 
     public bool isMoving;
@@ -28,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -65,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
             }
             else
-                transform.localScale = Vector2.one;
+                transform.localScale = new Vector2(.25f,.25f);
 
         }
         else if (direction < 0f)
@@ -76,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
                     player.velocity = new Vector2(direction * walkSpeed, player.velocity.y);
             }
             else
-                transform.localScale = new Vector2(-1, 1);
+                transform.localScale = new Vector2(-.25f, .25f);
 
         }
 
@@ -100,7 +103,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
-                jumpSpeed += 0.25f;
+                jumpSpeed += 0.025f;
+                if (jumpSpeed < 1)
+                {
+                    jumpSpeed = 1;
+                }
             }
             if (Input.GetKeyDown("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
@@ -127,6 +134,17 @@ public class PlayerMovement : MonoBehaviour
                 canJump = true;
             }
         }
+
+        if (isTouchingGround || isTouchingIceGround)
+        {
+            grounded = true;
+        }
+        else
+        {
+            grounded = false;
+        }
+
+        anim.SetBool("grounded", grounded);
 
 }
     void ResetJump()
