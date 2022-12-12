@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform groundCheck;
     public float groundCheckRadius;
-    
+
     public LayerMask groundLayer;
     public LayerMask iceGroundLayer;
     public LayerMask snowLayer;
@@ -145,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
                     {
                         jumpSpeed = .5f;
                     }
+                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
+                    jumpSpeed = 0f;
                 }
                 canJump = true;
             }
@@ -157,4 +159,3 @@ public class PlayerMovement : MonoBehaviour
         jumpSpeed = 0;
     }
 }
-
