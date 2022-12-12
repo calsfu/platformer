@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 3f;
+    public float walkSpeed = 2.5f;
     public float jumpSpeed = 0.0f;
     public float previous_x_speed = 0.0f;
     public bool canJump = true;
