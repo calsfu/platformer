@@ -28,11 +28,15 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
 
+    private Animator anim;
+    private bool grounded;
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -76,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
             }
             else
-                transform.localScale = Vector2.one;
+                transform.localScale = new Vector2(.45f, .45f);
 
         }
         else if (direction < 0f)
@@ -87,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
                     player.velocity = new Vector2(direction * walkSpeed, player.velocity.y);
             }
             else
-                transform.localScale = new Vector2(-1, 1);
+                transform.localScale = new Vector2(-.45f, .45f);
 
         }
 
@@ -162,6 +166,16 @@ public class PlayerMovement : MonoBehaviour
                 canJump = true;
             }
         }
+
+        if (isTouchingGround)
+        {
+            grounded = true;
+        }
+        else
+        {
+            grounded = false;
+        }
+        anim.SetBool("grounded", grounded);
         
 
 }
