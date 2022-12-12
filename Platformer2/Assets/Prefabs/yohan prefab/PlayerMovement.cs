@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
-                jumpSpeed += 0.1f;
+                jumpSpeed += 0.25f;
             }
             if (Input.GetKeyDown("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
