@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isTouchingSandGround;
     public bool isTouchingSnow;
 
-    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial, SnowMaterial;;
+    public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial, SnowMaterial;
 
     private Rigidbody2D player;
 
@@ -116,12 +116,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey("space") && (isTouchingGround) && canJump)
             {
-                if(jumpSpeed < 5f && isTouchingSnow) {
-                    jumpSpeed += 0.25f;
+                if(isTouchingSnow) {
+                    jumpSpeed += 0.2f;
+                    if(jumpSpeed > 4f) {
+                        jumpSpeed = 4f;
+                    }
                 }
-                else
-                if(jumpSpeed < 10f) {
-                    jumpSpeed += 0.25f;
+                else if(jumpSpeed < 9f) {
+                    jumpSpeed += 0.2f;
                 }
             }
             
@@ -138,25 +140,25 @@ public class PlayerMovement : MonoBehaviour
             // }
             if (Input.GetKeyUp("space"))
             {
-                if (isTouchingGround || isTouchingIceGround)
-                {
-                    if (jumpSpeed < 1f)
-                    {
-                        jumpSpeed = 1f;
-                    }
-                    previous_x_speed = player.velocity.x + direction * walkSpeed;
-                    player.velocity = new Vector2(previous_x_speed, jumpSpeed);
-                    jumpSpeed = 0f;
-                }
-                if (isTouchingSnow)
+                if (isTouchingGround)
                 {
                     if (jumpSpeed < .5f)
                     {
                         jumpSpeed = .5f;
                     }
-                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
+                    previous_x_speed = player.velocity.x + direction*1.25f * walkSpeed;
+                    player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
+                // if (isTouchingSnow)
+                // {
+                //     if (jumpSpeed < .5f)
+                //     {
+                //         jumpSpeed = .5f;
+                //     }
+                //     player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
+                //     jumpSpeed = 0f;
+                // }
                 canJump = true;
             }
         }
