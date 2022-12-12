@@ -155,7 +155,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
@@ -245,8 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
-  jumpBoost: 2
   jumpSpeed: 0
+  canJump: 1
   groundCheck: {fileID: 1751117312}
   groundCheckRadius: 0.5
   groundLayer:
@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 545647553}
   - component: {fileID: 545647552}
   - component: {fileID: 545647551}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 657307878}
   - component: {fileID: 657307877}
   - component: {fileID: 657307876}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

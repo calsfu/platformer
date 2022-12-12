@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed = 3.5f;
-    public float jumpBoost = 1.5f;
     public float jumpSpeed = 0.0f;
-    private bool canJump = true;
+    public bool canJump = true;
     private float direction = 0;
 
     public Transform groundCheck;
@@ -82,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Bounce
-        if (jumpSpeed > 0)
+        if (jumpSpeed > 0  || !isTouchingGround)
         {
             player.sharedMaterial = bounceMaterial;
         }
@@ -109,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (jumpSpeed >= 10f && (isTouchingGround || isTouchingIceGround))
             {
-                float tempx = direction * walkSpeed * jumpBoost;
+                float tempx = direction * walkSpeed;
                 float tempy = jumpSpeed;
                 player.velocity = new Vector2(tempx, tempy);
                 Invoke("ResetJump", 0.2f);
@@ -122,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         jumpSpeed = 1f;
                     }
-                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed * jumpBoost);
+                    player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
                 canJump = true;
