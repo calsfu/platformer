@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3270806712989688939}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: PlayerController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,9 +189,14 @@ MonoBehaviour:
   iceGroundLayer:
     serializedVersion: 2
     m_Bits: 128
+  snowLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isTouchingGround: 0
   isTouchingIceGround: 0
+  isTouchingSnow: 0
   bounceMaterial: {fileID: 6200000, guid: 599fce293a0093e4c95afcfffda2880e, type: 2}
   normalMaterial: {fileID: 6200000, guid: 599fce293a0093e4c95afcfffda2880e, type: 2}
   iceMaterial: {fileID: 6200000, guid: 72d46668f7103324498dc1370dbe1522, type: 2}
+  SnowMaterial: {fileID: 0}
   isMoving: 0

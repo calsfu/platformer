@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        PlayerPrefs.DeleteAll();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
