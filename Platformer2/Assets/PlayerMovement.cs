@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
 
+    Vector3 lastVelocity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -73,16 +75,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        //Player bounces when in air
-        if(jumpSpeed > 0)
-        {
-            player.sharedMaterial = bounceMaterial;
-        }
-        else
-        {
-            player.sharedMaterial = normalMaterial;
-        }
-
         //Jump
         if (player.velocity.magnitude == 0)
         {
@@ -115,11 +107,21 @@ public class PlayerMovement : MonoBehaviour
                 canJump = true;
             }
         }
-    }
+
+}
     void ResetJump()
     {
         canJump = false;
         jumpSpeed = 0;
+    }
+
+    //Player Bounce
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        var speed = lastVelocity.magnitude;
+        var bounceDirection = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+
+        player.velocity = bounceDirection * Mathf.Max(speed, 0f);
     }
 
 }
