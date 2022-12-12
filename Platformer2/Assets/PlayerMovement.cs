@@ -31,6 +31,14 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            Debug.Log("You Won!");
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -76,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Jump
-        Debug.Log(player.velocity.magnitude);
         if (player.velocity.magnitude == 0)
         {
             if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
@@ -98,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (isTouchingGround || isTouchingIceGround)
                 {
+                    if (jumpSpeed < 1f)
+                    {
+                        jumpSpeed = 1f;
+                    }
                     player.velocity = new Vector2(direction * walkSpeed, jumpSpeed * jumpBoost);
                     jumpSpeed = 0f;
                 }
