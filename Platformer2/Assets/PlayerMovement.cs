@@ -24,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
 
-    Vector3 lastVelocity;
-
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +47,14 @@ public class PlayerMovement : MonoBehaviour
         player.velocity = new Vector2(player.velocity.x, player.velocity.y);
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isTouchingIceGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, iceGroundLayer);
+        if (player.velocity.magnitude == 0)
+        {
+            isMoving = false;
+        }
+        else
+        {
+            isMoving = true;
+        }
 
         //Makes the player face the correct direction and move left or right when jumping
         if (direction > 0f)
@@ -75,8 +81,23 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        //Bounce
+        if (jumpSpeed > 0)
+        {
+            player.sharedMaterial = bounceMaterial;
+        }
+        else
+        {
+            player.sharedMaterial = normalMaterial;
+        }
+
+        if (isTouchingIceGround)
+        {
+            player.sharedMaterial = iceMaterial;
+        }
+
         //Jump
-        if (player.velocity.magnitude == 0)
+        if (!isMoving)
         {
             if (Input.GetKey("space") && (isTouchingGround || isTouchingIceGround) && canJump)
             {
@@ -91,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
                 float tempx = direction * walkSpeed * jumpBoost;
                 float tempy = jumpSpeed;
                 player.velocity = new Vector2(tempx, tempy);
-                Invoke("ResetJump", 1f);
+                Invoke("ResetJump", 0.2f);
             }
             if (Input.GetKeyUp("space"))
             {
@@ -114,15 +135,5 @@ public class PlayerMovement : MonoBehaviour
         canJump = false;
         jumpSpeed = 0;
     }
-
-    //Player Bounce
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var speed = lastVelocity.magnitude;
-        var bounceDirection = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
-
-        player.velocity = bounceDirection * Mathf.Max(speed, 0f);
-    }
-
 }
 
