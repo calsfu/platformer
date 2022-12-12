@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isTouchingIceGround;
     public bool isTouchingSandGround;
     public bool isTouchingSnow;
+    public bool isTouchingBounce;
 
     public PhysicsMaterial2D bounceMaterial, normalMaterial, iceMaterial, sandMaterial, SnowMaterial;
 
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         isTouchingIceGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, iceGroundLayer);
         isTouchingSandGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, sandGroundLayer);
         isTouchingSnow = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, snowLayer);
+        // isTouchingBounce= Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, bounceMaterial);
         if(isTouchingIceGround||isTouchingSandGround||isTouchingSnow)
         {
             isTouchingGround = true;
@@ -126,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (!isMoving || isMoving)
         {
-            if ((Input.GetKey("space")) && (stuck || isTouchingGround))
+            if ((Input.GetKey("space")) && (!isMoving || isTouchingGround))
             {
                 
                 
@@ -155,13 +157,15 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyUp("space"))
             {
                 
-                if (isTouchingGround || stuck)
+                if (isTouchingGround || !isMoving)
                 {
                     if (jumpSpeed < .5f)
                     {
                         jumpSpeed = .5f;
                     }
                     previous_x_speed = player.velocity.x + direction*1.5f * walkSpeed;
+                    Vector2 temp = new Vector2(0, .1f);
+                    player.MovePosition(player.position + temp);
                     player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
