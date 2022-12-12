@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 2.5f;
+    public float walkSpeed = 2f;
     public float jumpSpeed = 0.0f;
     public float previous_x_speed = 0.0f;
     public bool canJump = true;
     private float direction = 0;
+    public bool stuck = false;
+    public int counter = 0;
 
     public Transform groundCheck;
     public float groundCheckRadius = 0.1f;
@@ -94,6 +96,12 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector2(-.45f, .45f);
 
         }
+        if(!isMoving) {
+            counter++;
+            if(counter > 120) {
+                stuck = true;
+            }
+        }
 
         //Bounce
         if (jumpSpeed > 0  || !isTouchingGround)
@@ -118,15 +126,17 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (!isMoving || isMoving)
         {
-            if (Input.GetKey("space") && (isTouchingGround) && canJump)
+            if ((Input.GetKey("space")) && (stuck || isTouchingGround))
             {
+                
+                
                 if(isTouchingSnow) {
                     jumpSpeed += 0.2f;
-                    if(jumpSpeed > 4f) {
+                    if(jumpSpeed > 3f) {
                         jumpSpeed = 4f;
                     }
                 }
-                else if(jumpSpeed < 9f) {
+                else if(jumpSpeed < 7.5f) {
                     jumpSpeed += 0.2f;
                 }
             }
@@ -144,13 +154,14 @@ public class PlayerMovement : MonoBehaviour
             // }
             if (Input.GetKeyUp("space"))
             {
-                if (isTouchingGround)
+                
+                if (isTouchingGround || stuck)
                 {
                     if (jumpSpeed < .5f)
                     {
                         jumpSpeed = .5f;
                     }
-                    previous_x_speed = player.velocity.x + direction*1.25f * walkSpeed;
+                    previous_x_speed = player.velocity.x + direction*1.5f * walkSpeed;
                     player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
                 }
@@ -163,6 +174,8 @@ public class PlayerMovement : MonoBehaviour
                 //     player.velocity = new Vector2(direction * walkSpeed, jumpSpeed);
                 //     jumpSpeed = 0f;
                 // }
+                stuck = false;
+                counter = 0;
                 canJump = true;
             }
         }

@@ -25,8 +25,8 @@ public class Timer : MonoBehaviour
 
     public void UpdateScore()
     {
-        _playerScore += 0.001f;
+        _playerScore += 0.004f;
         int score = (int)_playerScore;
-        _scoreText.text = "Score: " + score.ToString();
+        _scoreText.text = "Time: " + score.ToString();
     }
 }
