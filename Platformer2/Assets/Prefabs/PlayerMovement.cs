@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
                         jumpSpeed = .5f;
                     }
                     previous_x_speed = player.velocity.x + direction*1.5f * walkSpeed;
-                    Vector2 temp = new Vector2(0, .5f);
+                    Vector2 temp = new Vector2(0, .1f);
                     player.MovePosition(player.position + temp);
                     player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
