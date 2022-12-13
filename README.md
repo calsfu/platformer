@@ -12,4 +12,4 @@ HOW TO PLAY
 There is no horizontal ground movement in this game. You can only move by jumping. Use A nd D to control the direction of your jump. How high you jump depends on how long you hold space for. 
 
 YOUTUBE 
-https://youtu.be/5dUHC14F064
+https://youtu.be/KFRt72uHj00
