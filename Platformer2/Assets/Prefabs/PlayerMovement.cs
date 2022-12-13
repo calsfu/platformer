@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
                         jumpSpeed = 4f;
                     }
                 }
-                else if(jumpSpeed < 7.5f) {
+                else if(jumpSpeed < 8f) {
                     jumpSpeed += 0.2f;
                 }
             }
@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
                         jumpSpeed = .5f;
                     }
                     previous_x_speed = player.velocity.x + direction*1.5f * walkSpeed;
-                    Vector2 temp = new Vector2(0, .1f);
+                    Vector2 temp = new Vector2(0, .5f);
                     player.MovePosition(player.position + temp);
                     player.velocity = new Vector2(previous_x_speed, jumpSpeed);
                     jumpSpeed = 0f;
@@ -202,5 +202,4 @@ public class PlayerMovement : MonoBehaviour
         canJump = false;
         jumpSpeed = 0;
     }
-
 }

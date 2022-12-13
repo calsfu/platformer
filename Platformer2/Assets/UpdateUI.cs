@@ -8,6 +8,8 @@ public class UpdateUI : MonoBehaviour
     [SerializeField] private GameObject ObjectPrefab;
     private TextMeshProUGUI UIText;
     private string ObjectID;
+    int counter;
+    public TextMeshProUGUI WINTEXT;
 
     private void Awake()
     {
@@ -18,6 +20,6 @@ public class UpdateUI : MonoBehaviour
     private void LateUpdate()
     {
         UIText.text = PlayerPrefs.GetInt(ObjectID).ToString();
-
+        counter = PlayerPrefs.GetInt(ObjectID);
     }
 }
